@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Dashboard - Learning Management System</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-[#0b1447] bg-cover bg-center text-[#151926] relative"
+  style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/37/IPB_campus_building_2012.jpg');">
+
+  <!-- Blur + dark overlay -->
+  <div class="absolute inset-0 bg-[#0b1447bf] backdrop-blur-md -z-10"></div>
+
+  <!-- Dashboard container -->
+  <div class="max-w-[1200px] mx-auto my-10 bg-[#f8faff] min-h-[700px] rounded-2xl shadow-[0_5px_25px_rgba(0,0,0,0.3)] flex overflow-hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="w-[280px] bg-gradient-to-b from-[#3c8aba] to-[#33a6c6] text-[#04203a] p-8 flex flex-col items-center shadow-[inset_-5px_0_15px_rgba(0,0,0,0.25)]">
+      <h2 class="font-bold text-[22px] mb-8 select-none">Student Module</h2>
+
+      <ul class="w-full space-y-6 font-semibold">
+        <li class="bg-white rounded-lg px-4 py-2 cursor-pointer"><a href="dashboard.html">Dashboard</a></li>
+        <li class="hover:bg-white rounded-lg px-4 py-2 cursor-pointer"><a href="courses.html">Courses</a></li>
+        <li class="hover:bg-white rounded-lg px-4 py-2 cursor-pointer"><a href="assignment.html">Assignments</a></li>
+        <li class="hover:bg-white rounded-lg px-4 py-2 cursor-pointer"><a href="quizz.html">Quizzes</a></li>
+        <li class="hover:bg-white rounded-lg px-4 py-2 cursor-pointer"><a href="performance.html">Performance Reports</a></li>
+        <li class="hover:bg-white rounded-lg px-4 py-2 cursor-pointer"><a href="notification.html">Notifications</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="flex-1 p-10 overflow-y-auto">
+      <!-- HEADER -->
+      <header class="flex justify-between items-center mb-6">
+        <h1 id="studentName" class="text-[28px] font-bold">Welcome, ...</h1>
+        <div id="studentId" class="font-semibold text-[#6b7280] text-[16px]">Student ID: ...</div>
+      </header>
+
+      <!-- CARDS -->
+      <section class="flex flex-wrap gap-6 mb-10">
+        <div class="bg-white rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-6 w-[300px] hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition hover:-translate-y-1">
+          <h3 class="text-[18px] font-bold text-[#2563eb] mb-2">Assignments</h3>
+          <p class="text-[14px] text-[#374151]">View all your pending and submitted assignments in one place.</p>
+          <a href="assignment.html" class="text-[#5975b2] font-semibold mt-3 inline-block hover:text-[#1e40af] text-[14px]">Go to Assignments →</a>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-6 w-[300px] hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition hover:-translate-y-1">
+          <h3 class="text-[18px] font-bold text-[#2563eb] mb-2">Quizzes</h3>
+          <p class="text-[14px] text-[#374151]">Take quizzes and view your scores to track your learning progress.</p>
+          <a href="quizz.html" class="text-[#5975b2] font-semibold mt-3 inline-block hover:text-[#1e40af] text-[14px]">Go to Quizzes →</a>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-6 w-[300px] hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition hover:-translate-y-1">
+          <h3 class="text-[18px] font-bold text-[#2563eb] mb-2">Performance Reports</h3>
+          <p class="text-[14px] text-[#374151]">Analyze your academic performance across courses.</p>
+          <a href="performance.html" class="text-[#5975b2] font-semibold mt-3 inline-block hover:text-[#1e40af] text-[14px]">View Reports →</a>
+        </div>
+      </section>
+
+      <!-- UPCOMING DEADLINES -->
+      <section class="max-w-[720px] mb-10">
+        <h2 class="font-bold text-[22px] mb-4 text-[#0b1221]">Upcoming Deadlines</h2>
+
+        <div class="bg-white rounded-xl p-5 mb-3 shadow hover:bg-gray-100 transition">
+          <div>
+            <span class="font-semibold text-[16px] text-[#111827]">Assignment 1: Data Structures</span>
+            <span class="block text-[13px] text-[#6b7280]">Submit your work on linked lists and trees.</span>
+          </div>
+          <span class="text-[13px] font-semibold text-[#275a8a] float-right">Sep 10, 2023</span>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 mb-3 shadow hover:bg-gray-100 transition">
+          <div>
+            <span class="font-semibold text-[16px]">Quiz 3: Algorithms</span>
+            <span class="block text-[13px] text-[#6b7280]">Covers sorting and searching algorithms.</span>
+          </div>
+          <span class="text-[13px] font-semibold text-[#275a8a] float-right">Sep 15, 2023</span>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 mb-3 shadow hover:bg-gray-100 transition">
+          <div>
+            <span class="font-semibold text-[16px]">Project Proposal</span>
+            <span class="block text-[13px] text-[#6b7280]">Submit proposal for your semester project.</span>
+          </div>
+          <span class="text-[13px] font-semibold text-[#275a8a] float-right">Sep 20, 2023</span>
+        </div>
+      </section>
+
+      <!-- ANNOUNCEMENTS -->
+      <section class="max-w-[720px] mb-10">
+        <h2 class="font-bold text-[22px] mb-4 text-[#0b1221]">Announcements</h2>
+
+        <div class="bg-white rounded-xl p-5 mb-3 shadow hover:bg-gray-100 transition">
+          <div>
+            <span class="font-semibold text-[16px]">New Course Material</span>
+            <span class="block text-[13px] text-[#6b7280]">Data Structures module updated with new videos.</span>
+          </div>
+          <span class="text-[13px] font-semibold text-[#275a8a] float-right">Sep 5, 2023</span>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 mb-3 shadow hover:bg-gray-100 transition">
+          <span class="font-semibold text-[16px]">System Maintenance</span>
+          <span class="block text-[13px] text-[#6b7280]">Downtime from 12 am to 4 am on Sep 12.</span>
+          <span class="text-[13px] font-semibold text-[#275a8a] float-right">Sep 12, 2023</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 🔥 FETCH STUDENT DATA USING JWT -->
+  <script>
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+      window.location.href = "login.html";
+    }
+
+    if (!localStorage.getItem("access_token")) {
+      window.location.href = "login.html";
+  }
+
+
+    async function loadStudent() {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/api/students/", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await res.json();
+        const student = data[0]; // Assuming 1 student per user
+
+        document.getElementById("studentName").innerText =
+          "Welcome, " + student.full_name;
+        document.getElementById("studentId").innerText =
+          "Student ID: " + student.admission_no;
+
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    loadStudent();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Courses - Learning Management System</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body
+    class="min-h-screen bg-[#0b1447] bg-cover bg-center text-[#151926] relative"
+    style="
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/37/IPB_campus_building_2012.jpg');
+    "
+  >
+    <!-- Blur overlay -->
+    <div class="absolute inset-0 bg-[#0b1447bf] backdrop-blur-md -z-10"></div>
+
+    <!-- Container -->
+    <div
+      class="max-w-[1200px] mx-auto my-10 bg-[#f8faff] min-h-[700px] rounded-2xl shadow-[0_5px_25px_rgba(0,0,0,0.3)] flex overflow-hidden"
+    >
+      <!-- Sidebar -->
+      <aside
+        class="w-[280px] bg-gradient-to-b from-[#3c8aba] to-[#33a6c6] text-[#04203a] p-8 flex flex-col items-center shadow-[inset_-5px_0_15px_rgba(0,0,0,0.25)]"
+      >
+        <h2 class="font-bold text-[22px] mb-8 select-none text-center">
+          Student Module
+        </h2>
+
+        <ul class="w-full space-y-6 font-semibold text-center">
+          <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer">
+            <a href="dashboard.html">Dashboard</a>
+          </li>
+          <li class="rounded-lg px-4 py-2 bg-[#c9daec] cursor-pointer">
+            Courses
+          </li>
+          <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer">
+            <a href="assignment.html">Assignments</a>
+          </li>
+          <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer">
+            <a href="quizz.html">Quizzes</a>
+          </li>
+          <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer">
+            <a href="performance.html">Performance Reports</a>
+          </li>
+          <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer">
+            <a href="notification.html">Notifications</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="flex-1 p-10 overflow-y-auto">
+        <header class="flex justify-between items-center mb-6">
+          <h1 class="text-[28px] font-bold select-none" id="pageTitle">
+            Computer Science Courses
+          </h1>
+          <div class="font-semibold text-[#6b7280] text-[16px]" id="studentId">
+            Student ID: ...
+          </div>
+        </header>
+
+        <!-- COURSE GRID -->
+        <div
+          id="coursesGrid"
+          class="grid gap-6"
+          style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))"
+        >
+          <!-- Courses dynamically insert here -->
+        </div>
+      </main>
+    </div>
+
+    <!-- 🔥 BACKEND SCRIPT TO FETCH COURSES & STUDENT -->
+    <script>
+      const token = localStorage.getItem("access_token");
+
+      if (!token) {
+        window.location.href = "login.html";
+      }
+
+      async function loadStudent() {
+        try {
+          const res = await fetch("http://127.0.0.1:8000/api/students/", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+          const student = data[0];
+          document.getElementById("studentId").innerText =
+            "Student ID: " + student.admission_no;
+        } catch (e) {
+          console.log("Student load error:", e);
+        }
+      }
+
+      async function loadCourses() {
+        try {
+          const res = await fetch("http://127.0.0.1:8000/api/courses/", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const courses = await res.json();
+          let html = "";
+
+          courses.forEach((course) => {
+            html += `
+            <article class="bg-white rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-6 flex flex-col gap-3 cursor-pointer transition hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)]">
+              <div class="text-[20px] font-bold text-[#2563eb]">${course.title}</div>
+              <div class="font-semibold text-[15px] text-[#6b7280]">${course.code}</div>
+              <div class="text-[14px] text-[#374151] flex-grow">${course.description}</div>
+              <div class="text-[13px] text-[#536978]">Instructor: ${course.instructor} | Credits: ${course.credits}</div>
+            </article>
+          `;
+          });
+
+          document.getElementById("coursesGrid").innerHTML = html;
+        } catch (e) {
+          console.log("Courses load error:", e);
+        }
+      }
+
+      loadStudent();
+      loadCourses();
+    </script>
+  </body>
+</html>

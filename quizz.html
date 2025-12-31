@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quizzes - Learning Management System</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-[#0b1447] bg-cover bg-center text-[#151926] relative"
+  style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/37/IPB_campus_building_2012.jpg');">
+
+  <!-- Blur overlay -->
+  <div class="absolute inset-0 bg-[#0b1447bf] backdrop-blur-md -z-10"></div>
+
+  <!-- Dashboard container -->
+  <div class="max-w-[1200px] mx-auto my-10 bg-[#f8faff] min-h-[700px] rounded-2xl shadow-[0_5px_25px_rgba(0,0,0,0.3)] flex overflow-hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="w-[280px] bg-gradient-to-b from-[#3c8aba] to-[#33a6c6] text-[#04203a] p-8 flex flex-col items-center shadow-[inset_-5px_0_15px_rgba(0,0,0,0.25)]">
+      <h2 class="font-bold text-[22px] mb-8 select-none text-center">Student Module</h2>
+
+      <ul class="w-full space-y-6 font-semibold text-center">
+        <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer"><a href="dashboard.html">Dashboard</a></li>
+        <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer"><a href="courses.html">Courses</a></li>
+        <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer"><a href="assignment.html">Assignments</a></li>
+        <li class="rounded-lg px-4 py-2 bg-[#bac2d8] cursor-pointer"><a>Quizzes</a></li>
+        <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer"><a href="performance.html">Performance Reports</a></li>
+        <li class="rounded-lg px-4 py-2 hover:bg-white cursor-pointer"><a href="notification.html">Notifications</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-10 overflow-y-auto">
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-[28px] font-bold select-none">Computer Science Quizzes</h1>
+        <div class="font-semibold text-[#6b7280] text-[16px]">Student ID: abc123</div>
+      </header>
+
+      <!-- Quiz Grid -->
+      <div id="quizGrid" class="grid gap-6" style="grid-template-columns: repeat(auto-fill,minmax(280px,1fr));"></div>
+    </main>
+  </div>
+
+  <!-- QUIZ MODAL -->
+  <div id="quizModal" class="fixed inset-0 bg-black/60 hidden justify-center items-center z-[1000]">
+    <div class="bg-white rounded-2xl p-8 w-[90%] max-w-[600px] max-h-[80vh] overflow-y-auto shadow-2xl">
+      <div class="flex justify-between items-center mb-6">
+        <h2 id="quizTitle" class="text-[24px] font-bold text-[#2563eb]"></h2>
+        <button onclick="closeQuiz()" class="text-[26px] font-bold text-gray-500 hover:text-gray-700">&times;</button>
+      </div>
+
+      <div id="quizQuestions"></div>
+
+      <button id="submitBtn"
+        class="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold px-4 py-3 rounded-lg mt-6"
+        onclick="submitQuiz()">Submit Quiz</button>
+
+      <div id="results" class="hidden mt-6">
+        <h3 class="text-[20px] font-bold text-[#2563eb] mb-3">Results</h3>
+        <div id="score" class="font-bold text-[18px] mb-3"></div>
+        <div id="feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ SCRIPT -->
+  <script>
+    const quizzes = {
+      cs101: [
+        { q: "What is the output of print(2 + 3)?", options: ["5", "23", "Error", "None"], correct: 0 },
+        { q: "Keyword to define function in Python?", options: ["def", "func", "define", "function"], correct: 0 },
+        { q: "len() gives?", options: ["Length of string", "Length of list", "Both", "None"], correct: 2 },
+        { q: "How to start loops?", options: ["for", "while", "both", "none"], correct: 2 },
+        { q: "A variable is?", options: ["constant", "storage", "function", "loop"], correct: 1 }
+      ],
+      cs102: [
+        { q: "A stack?", options: ["LIFO", "FIFO", "Random", "None"], correct: 0 },
+        { q: "Not a tree traversal?", options: ["Inorder", "Preorder", "Postorder", "Random"], correct: 3 },
+        { q: "Sorting for small arrays?", options: ["Bubble", "Quick", "Merge", "Heap"], correct: 0 },
+        { q: "Queue?", options: ["LIFO", "FIFO", "None", "Random"], correct: 1 },
+        { q: "Binary search time?", options: ["O(n)", "O(log n)", "O(n²)", "O(1)"], correct: 1 }
+      ]
+      // Baaki quizzes same format me add kar sakte ho
+    };
+
+    const quizListInfo = [
+      { id: "cs101", title: "Programming Basics Quiz", desc: "Python basics", info: "Questions: 5 | Time: 10 min" },
+      { id: "cs102", title: "Data Structures Quiz", desc: "Stacks, Trees, Algorithms", info: "Questions: 5 | Time: 15 min" },
+      { id: "cs103", title: "Computer Networks Quiz", desc: "Protocols, security & architecture", info: "Questions: 5 | Time: 12 min" },
+      { id: "cs104", title: "Operating Systems Quiz", desc: "Process, memory & scheduling", info: "Questions: 5 | Time: 14 min" },
+      { id: "cs105", title: "Database Systems Quiz", desc: "SQL, normalization & schema", info: "Questions: 5 | Time: 13 min" },
+      { id: "cs106", title: "AI Quiz", desc: "Search algorithms & learning", info: "Questions: 5 | Time: 16 min" }
+    ];
+
+    const grid = document.getElementById("quizGrid");
+    grid.innerHTML = quizListInfo
+      .map(
+        q => `
+      <div class="bg-white rounded-2xl shadow-[0_6px_16px_rgba(0,0,0,0.12)] p-6 flex flex-col gap-2 cursor-pointer transition hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)]">
+        <div class="text-[20px] font-bold text-[#2563eb]">${q.title}</div>
+        <div class="font-semibold text-[15px] text-[#6b7280]">${q.id.toUpperCase()}</div>
+        <div class="text-[14px] text-[#374151]">${q.desc}</div>
+        <div class="text-[13px] text-[#536978]">${q.info}</div>
+        <button class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold px-4 py-2 rounded-lg mt-2 w-fit"
+          onclick="openQuiz('${q.id}')">Take Quiz</button>
+      </div>
+    `
+      )
+      .join("");
+
+    let selected = [];
+    let currentQuizId = null;
+
+    function openQuiz(id) {
+      currentQuizId = id;
+      selected = [];
+      document.getElementById("quizTitle").innerText = id.toUpperCase() + " Quiz";
+      document.getElementById("quizQuestions").innerHTML = quizzes[id]
+        .map(
+          (q, i) => `
+        <div class="mb-5">
+          <p class="font-semibold mb-2">${i + 1}. ${q.q}</p>
+          ${q.options
+            .map(
+              (opt, j) => `
+              <div class="border border-gray-300 rounded-lg px-3 py-2 cursor-pointer hover:bg-gray-100"
+                onclick="selectOption(${i}, ${j}, this)">
+                ${opt}
+              </div>
+          `
+            )
+            .join("")}
+        </div>`
+        )
+        .join("");
+
+      document.getElementById("results").classList.add("hidden");
+      document.getElementById("quizModal").classList.remove("hidden");
+      document.getElementById("quizModal").classList.add("flex");
+    }
+
+    function selectOption(q, opt, el) {
+      selected[q] = opt;
+      [...el.parentElement.children].forEach(e => e.classList.remove("bg-blue-100", "border-blue-500"));
+      el.classList.add("bg-blue-100", "border-blue-500");
+    }
+
+    function submitQuiz() {
+      if (selected.length !== quizzes[currentQuizId].length) {
+        alert("Please answer all questions.");
+        return;
+      }
+
+      let score = 0;
+      let resultHtml = "";
+      quizzes[currentQuizId].forEach((q, i) => {
+        const correct = selected[i] === q.correct;
+        if (correct) score++;
+        resultHtml += `
+          <div class="p-3 rounded-lg mb-2 ${correct ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+            <strong>${i + 1}. ${q.q}</strong><br>
+            Your answer: ${q.options[selected[i]]} <br>
+            Correct: ${q.options[q.correct]}
+          </div>`;
+      });
+
+      document.getElementById("score").innerHTML = `Your Score: <strong>${score}/${quizzes[currentQuizId].length}</strong>`;
+      document.getElementById("feedback").innerHTML = resultHtml;
+      document.getElementById("results").classList.remove("hidden");
+      document.getElementById("submitBtn").style.display = "none";
+    }
+
+    function closeQuiz() {
+      document.getElementById("quizModal").classList.add("hidden");
+      document.getElementById("submitBtn").style.display = "block";
+      document.getElementById("quizQuestions").innerHTML = "";
+    }
+  </script>
+
+</body>
+</html>

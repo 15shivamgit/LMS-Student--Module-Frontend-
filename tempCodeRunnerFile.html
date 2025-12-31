@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notifications - Learning Management System</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body, html {
+      height: 100%;
+      background: #0b1447 url('https://upload.wikimedia.org/wikipedia/commons/3/37/IPB_campus_building_2012.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #151926;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 20, 71, 0.75);
+      z-index: -1;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Container */
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      background: #f8faff;
+      border-radius: 16px;
+      display: flex;
+      min-height: 700px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg,  #3c8aba 0%, #33a6c6 100%);
+      color: rgb(4, 32, 58)te;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: inset -5px 0 15px rgba(0,0,0,0.25);
+    }
+    .sidebar h2 {
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 30px;
+      user-select: none;
+      text-align: center;
+    }
+    .nav-links {
+      list-style: none;
+      width: 100%;
+    }
+    .nav-links li {
+      margin-bottom: 24px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 10px 14px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      text-align: center;
+    }
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #ced7f0;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex-grow: 1;
+      padding: 32px 48px;
+      overflow-y: auto;
+      color: #151926;
+    }
+
+    /* Header */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .dashboard-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      user-select: none;
+    }
+    .user-info {
+      font-size: 16px;
+      font-weight: 600;
+      color: #6b7280;
+      user-select: none;
+    }
+
+    /* Announcements List */
+    .announcements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .announcement-item {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgb(0 0 0 / 0.12);
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .announcement-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgb(0 0 0 / 0.18);
+    }
+    .announcement-details {
+      flex-grow: 1;
+    }
+    .announcement-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 8px;
+      user-select: text;
+    }
+    .announcement-desc {
+      font-size: 14px;
+      color: #374151;
+      margin-bottom: 12px;
+      user-select: text;
+    }
+    .announcement-meta {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .announcement-meta span {
+      margin-right: 16px;
+    }
+    .announcement-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .type-badge {
+      font-weight: 600;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .type-badge.deadline {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    .type-badge.event {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+    .type-badge.message {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .urgent-badge {
+      background-color: #fee2e2;
+      color: #991b1b;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .forum-link {
+      color: #2563eb;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    .forum-link:hover {
+      color: #1d4ed8;
+    }
+
+    /* Discussion Forums Section */
+    .forums-section {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgb(0 0 0 / 0.12);
+      padding: 24px;
+      margin-top: 40px;
+    }
+    .forums-section h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 16px;
+    }
+    .forums-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .forum-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+    .forum-item:hover {
+      background-color: #f9fafb;
+    }
+    .forum-item a {
+      color: #2563eb;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .forum-item a:hover {
+      color: #1d4ed8;
+    }
+    .forum-meta {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      .dashboard-container {
+        flex-direction: column;
+        max-width: 95vw;
+        height: auto;
+      }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 18px 12px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+      .nav-links li {
+        margin-bottom: 0;
+        font-size: 14px;
+        padding: 10px 8px;
+      }
+      .main-content {
+        padding: 24px 20px;
+        max-height: none;
+      }
+      .announcement-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .announcement-actions {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container" role="main" aria-label="Student Notifications and Navigation">
+    <!-- Sidebar navigation -->
+    <nav class="sidebar" aria-label="Primary navigation">
+      <h2>Student Module</h2>
+      <ul class="nav-links" role="list">
+        <li tabindex="0"><a href="dashboard.html">Dashboard</a></li>
+        <li tabindex="0"><a href="courses.html">Courses</a></li>
+        <li tabindex="0"><a href="assignment.html">Assignments</a></li>
+        <li tabindex="0"><a href="quizz.html">Quizzes</a></li>
+        <li tabindex="0"><a href="performance.html">Performance Reports</a></li>
+        <li class="active" tabindex="0" aria-current="page">Notifications</li>
+      </ul>
+    </nav>
+
+    <!-- Main content -->
+    <section class="main-content" aria-labelledby="notifications-title">
+      <header class="dashboard-header">
+        <h1 id="notifications-title">Notifications & Announcements</h1>
+        <div class="user-info">Student ID: abc123</div>
+      </header>
+
+      <div class="announcements-list" role="list" aria-label="List of upcoming university announcements">
+        <article class="announcement-item" role="listitem" tabindex="0" aria-describedby="desc-ann1 desc-ann1-meta">
+          <div class="announcement-details">
+            <div class="announcement-title">Assignment Deadline Reminder</div>
+            <div id="desc-ann1" class="announcement-desc">
+              Reminder: Submit your Data Structures project by tomorrow. Late submissions will incur penalties.
+            </div>
+            <div id="desc-ann1-meta" class="announcement-meta">
+              <span>From: Faculty</span>
+              <span>Date: Sep 14, 2023</span>
+            </div>
+          </div>
+          <div class="announcement-actions">
+            <div class="type-badge deadline">Deadline</div>
+            <div class="urgent-badge">Urgent</div>
+          </div>
+        </article>
+
+        <article class="announcement-item" role="listitem" tabindex="0" aria-describedby="desc-ann2 desc-ann2-meta">
+          <div class="announcement-title">University Career Fair</div>
+          <div id="desc-ann2" class="announcement-desc">
+            Join the annual Career Fair on campus. Meet recruiters from top tech companies and explore internship opportunities.
+            </div>
+          <div id="desc-ann2-meta" class="announcement-meta">
+            <span>From: University Admin</span>
+            <span>Date: Sep 18, 2023</span>
+          </div>
+          <div class="announcement-actions">
+            <div class="type-badge event">Event</div>
+          </div>
+        </article>
+
+        <article class="announcement-item" role="listitem" tabindex="0" aria-describedby="desc-ann3 desc-ann3-meta">
+          <div class="announcement-title">Faculty Office Hours Update</div>
+          <div id="desc-ann3" class="announcement-desc">
+            Dr. Sari's office hours for Computer Networks have been rescheduled to Wednesdays 2-4 PM. Contact for clarifications.
+          </div>
+          <div id="desc-ann3-meta" class="announcement-meta">
+            <span>From: Dr. Sari</span>
+            <span>Date: Sep 12, 2023</span>
+          </div>
+          <div class="announcement-actions">
+            <div class="type-badge message">Faculty Message</div>
+          </div>
+        </article>
+
+        <article class="announcement-item" role="listitem" tabindex="0" aria-describedby="desc-ann4 desc-ann4-meta">
+          <div class="announcement-title">Quiz Reminder: AI Basics</div>
+          <div id="desc-ann4" class="announcement-desc">
+            Upcoming quiz on Artificial Intelligence concepts. Review chapters 1-3. Good luck!
+          </div>
+          <div id="desc-ann4-meta" class="announcement-meta">
+            <span>From: Faculty</span>
+            <span>Date: Sep 20, 2023</span>
+          </div>
+          <div class="announcement-actions">
+            <div class="type-badge deadline">Deadline</div>
+            <div class="urgent-badge">Urgent</div>
+          </div>
+        </article>
+
+        <article class="announcement-item" role="listitem" tabindex="0" aria-describedby="desc-ann5 desc-ann5-meta">
+          <div class="announcement-title">Semester Break Announcement</div>
+          <div id="desc-ann5" class="announcement-desc">
+            Mid-semester break starts on Oct 1. Classes resume on Oct 10. Use this time for project work.
+          </div>
+          <div id="desc-ann5-meta" class="announcement-meta">
+            <span>From: University Admin</span>
+            <span>Date: Sep 10, 2023</span>
+          </div>
+          <div class="announcement-actions">
+            <div class="type-badge event">Event</div>
+          </div>
+        </article>
+
+        <article class="announcement-item" role="listitem" tabindex="0" aria-describedby="desc-ann6 desc-ann6-meta">
+          <div class="announcement-title">New Course Material Available</div>
+          <div id="desc-ann6" class="announcement-desc">
+            Updated lecture notes for Database Systems (CS105) are now available in the course portal.
+          </div>
+          <div id="desc-ann6-meta" class="announcement-meta">
+            <span>From: Prof. Wulan</span>
+            <span>Date: Sep 8, 2023</span>
+          </div>
+          <div class="announcement-actions">
+            <div class="type-badge message">Faculty Message</div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Discussion Forums Section -->
+      <section class="forums-section" aria-labelledby="forums-title">
+        <h3 id="forums-title">Discussion Forums & Chat</h3>
+        <div class="forums-list" role="list" aria-label="List of discussion forums">
+          <div class="forum-item" role="listitem">
+            <a href="#" aria-label="Go to CS101 Programming Forum">CS101 Programming Forum</a>
+            <span class="forum-meta">12 active discussions</span>
+          </div>
+          <div class="forum-item" role="listitem">
+            <a href="#" aria-label="Go to CS102 Data Structures Forum">CS102 Data Structures Forum</a>
+            <span class="forum-meta">8 active discussions</span>
+          </div>
+          <div class="forum-item" role="listitem">
+            <a href="#" aria-label="Go to General Student Chat">General Student Chat</a>
+            <span class="forum-meta">25 active users</span>
+          </div>
+          <div class="forum-item" role="listitem">
+            <a href="#" aria-label="Go to Faculty Q&A Forum">Faculty Q&A Forum</a>
+            <span class="forum-meta">5 pending questions</span>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+</body>
+</html>
+
+
