@@ -1,85 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Learning Management System - Login</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Learning Management System - Login</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-<body class="h-screen w-screen flex justify-center items-center overflow-hidden font-[Segoe_UI] relative">
+  <body
+    class="h-screen w-screen flex justify-center items-center overflow-hidden font-[Segoe_UI] relative"
+  >
+    <div
+      class="absolute inset-0 bg-[url('image1.png')] bg-cover bg-center -z-20"
+    ></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-tr from-[#153c51bb] to-[#0000002c] -z-10"
+    ></div>
 
-  <div class="absolute inset-0 bg-[url('image1.png')] bg-cover bg-center -z-20"></div>
-  <div class="absolute inset-0 bg-gradient-to-tr from-[#153c51bb] to-[#0000002c] -z-10"></div>
+    <main
+      class="w-[720px] max-w-[95vw] h-[360px] bg-white/10 rounded-[14px] shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_0_100px_35px_rgba(11,65,71,0.6)] flex overflow-hidden"
+    >
+      <section
+        class="w-[320px] bg-gradient-to-br from-[#2563eb] to-[#0b1447] p-[30px] text-white flex flex-col justify-center gap-6 shadow-[inset_-5px_0_15px_rgba(0,0,0,0.35)] backdrop-blur-lg"
+      >
+        <div class="text-center">
+          <img
+            src="image.png"
+            alt="University Logo"
+            class="w-12 mx-auto mb-2 drop-shadow-md"
+          />
+          <h3 class="font-semibold tracking-[1.3px] text-[20px]">Log in</h3>
+        </div>
 
-  <main class="w-[720px] max-w-[95vw] h-[360px] bg-white/10 rounded-[14px] shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_0_100px_35px_rgba(11,65,71,0.6)] flex overflow-hidden">
+        <form id="loginForm" class="flex flex-col gap-[18px]">
+          <label
+            class="text-[#d1d9ffcc] tracking-wide text-[13px] font-semibold"
+            >Username</label
+          >
+          <input
+            id="username"
+            type="text"
+            placeholder="abc123"
+            class="px-4 py-3 rounded-lg text-[#0b1447] placeholder-[#9fb7ffcc] focus:outline focus:outline-[#88aaffaa] bg-white/90 text-[16px]"
+            required
+          />
 
-    <section class="w-[320px] bg-gradient-to-br from-[#2563eb] to-[#0b1447] p-[30px] text-white flex flex-col justify-center gap-6 shadow-[inset_-5px_0_15px_rgba(0,0,0,0.35)] backdrop-blur-lg">
-      <div class="text-center">
-        <img src="image.png" alt="University Logo" class="w-12 mx-auto mb-2 drop-shadow-md" />
-        <h3 class="font-semibold tracking-[1.3px] text-[20px]">Log in</h3>
-      </div>
+          <label
+            class="text-[#d1d9ffcc] tracking-wide text-[13px] font-semibold"
+            >Password</label
+          >
+          <input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            class="px-4 py-3 rounded-lg text-[#0b1447] placeholder-[#9fb7ffcc] focus:outline focus:outline-[#88aaffaa] bg-white/90 text-[16px]"
+            required
+          />
 
-      <form id="loginForm" class="flex flex-col gap-[18px]">
-        <label class="text-[#d1d9ffcc] tracking-wide text-[13px] font-semibold">Username</label>
-        <input id="username" type="text" placeholder="abc123"
-          class="px-4 py-3 rounded-lg text-[#0b1447] placeholder-[#9fb7ffcc] focus:outline focus:outline-[#88aaffaa] bg-white/90 text-[16px]" required />
+          <button
+            type="submit"
+            class="bg-[#3b82f6] px-4 py-3 text-[15px] font-bold rounded-[10px] w-full shadow-[0_4px_8px_#2256a4bb] hover:bg-[#0a2889] active:bg-[#143c8a] transition"
+          >
+            Login
+          </button>
 
-        <label class="text-[#d1d9ffcc] tracking-wide text-[13px] font-semibold">Password</label>
-        <input id="password" type="password" placeholder="••••••••"
-          class="px-4 py-3 rounded-lg text-[#0b1447] placeholder-[#9fb7ffcc] focus:outline focus:outline-[#88aaffaa] bg-white/90 text-[16px]" required />
+          <p id="loginMessage" class="text-sm text-red-300 h-4"></p>
+        </form>
+      </section>
 
-        <button type="submit"
-          class="bg-[#3b82f6] px-4 py-3 text-[15px] font-bold rounded-[10px] w-full shadow-[0_4px_8px_#2256a4bb] hover:bg-[#0a2889] active:bg-[#143c8a] transition">
-          Login
-        </button>
+      <section
+        class="flex-1 relative bg-[url('image2.png')] bg-cover bg-center flex justify-center items-end"
+      >
+        <div class="absolute inset-0 bg-white/20 rounded-r-[14px]"></div>
+        <div
+          class="relative text-[#0d1752] italic font-semibold text-[30px] w-[70%] text-center mb-5 select-none"
+        ></div>
+      </section>
+    </main>
 
-        <p id="loginMessage" class="text-sm text-red-300 h-4"></p>
-      </form>
-    </section>
+    <script>
+      const form = document.getElementById("loginForm");
+      const msg = document.getElementById("loginMessage");
 
-    <section class="flex-1 relative bg-[url('image2.png')] bg-cover bg-center flex justify-center items-end">
-      <div class="absolute inset-0 bg-white/20 rounded-r-[14px]"></div>
-      <div class="relative text-[#0d1752] italic font-semibold text-[30px] w-[70%] text-center mb-5 select-none">
-      
-      </div>
-    </section>
-  </main>
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.textContent = "";
 
-  <script>
-    const form = document.getElementById("loginForm");
-    const msg = document.getElementById("loginMessage");
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      msg.textContent = "";
+        try {
+          // const res = await fetch("http://127.0.0.1:8000/api/token/", {
+          const res = await fetch(
+            "https://lms-student-module-backend-production.up.railway.app/api/token/",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ username, password }),
+            }
+          );
 
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
+          if (!res.ok) {
+            msg.textContent = "Invalid username or password!";
+            return;
+          }
 
-      try {
-        const res = await fetch("http://127.0.0.1:8000/api/token/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        });
+          const data = await res.json();
+          localStorage.setItem("access_token", data.access);
+          localStorage.setItem("refresh_token", data.refresh);
 
-        if (!res.ok) {
-          msg.textContent = "Invalid username or password!";
-          return;
+          window.location.href = "dashboard.html";
+        } catch {
+          msg.textContent = "Backend error — please check server!";
         }
-
-        const data = await res.json();
-        localStorage.setItem("access_token", data.access);
-        localStorage.setItem("refresh_token", data.refresh);
-
-        window.location.href = "dashboard.html";
-      } catch {
-        msg.textContent = "Backend error — please check server!";
-      }
-    });
-  </script>
-
-</body>
+      });
+    </script>
+  </body>
 </html>

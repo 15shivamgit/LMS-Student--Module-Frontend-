@@ -126,7 +126,7 @@
 
     async function loadStudent() {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/students/", {
+        const res = await fetch("https://lms-student-module-backend-production.up.railway.app/api/students/", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

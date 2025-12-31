@@ -98,7 +98,7 @@
 
       async function loadCourses() {
         try {
-          const res = await fetch("http://127.0.0.1:8000/api/courses/", {
+          const res = await fetch("https://lms-student-module-backend-production.up.railway.app/api/courses/", {
             headers: { Authorization: `Bearer ${token}` },
           });
           const courses = await res.json();
